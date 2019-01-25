@@ -72,7 +72,7 @@ public class Main {
     //Parse.txt to array
     public static ArrayList<Integer> parse() throws IOException {
         ArrayList<Integer> number = new ArrayList<Integer>();
-        Scanner scanner = new Scanner(new BufferedReader((new FileReader("C:/dev/OS/Input.txt"))));
+        Scanner scanner = new Scanner(new BufferedReader((new FileReader("Input.txt"))));
         while (scanner.hasNextLine()) {
             number.add(scanner.nextInt());
         }

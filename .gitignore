@@ -1,7 +1,6 @@
 
-.idea/workspace.xml
-.idea/workspace.xml
-.idea/workspace.xml
-out/production/OS/META-INF/OS.kotlin_module
+.idea/
 *.class
 out/production/OS/com/company/Main.class
+*.xml
+.out/
