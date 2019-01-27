@@ -1,8 +1,9 @@
 package com.company;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
+
+
 
 class QuickSort extends Thread{
 
@@ -10,6 +11,7 @@ class QuickSort extends Thread{
     private int low;
     private int high;
     private char side;
+
 
     //constructor
     public QuickSort(ArrayList<Integer> arr, int low, int high, char side){
@@ -19,28 +21,33 @@ class QuickSort extends Thread{
         this.side = side;
     }
 
+
     public void run(){
-        quickSort(arr, low, high);
-//        System.out.println(arr);
+       quickSort(arr, low, high);
+        System.out.println(arr);
+
     }
 
     public static void quickSort(ArrayList<Integer> arr, int low, int high) {
         if (high > low) {
             int pivot = partition(arr, low, high);       //partition sort between low and high
-            QuickSort left = new QuickSort(arr,low, pivot-1, 'L');  //QuickSort thread for the left array
-            left.run();
-            QuickSort right = new QuickSort(arr, pivot + 1, high, 'R'); //QuickSort thread for the right array
-            right.run();
+            quickSort(arr, low, pivot - 1);
+            quickSort(arr, pivot + 1, high);
+        QuickSort left = new QuickSort(arr,low, pivot-1, 'L');  //QuickSort thread for the left array
+         left.start();
+      QuickSort right = new QuickSort(arr, pivot + 1, high, 'R'); //QuickSort thread for the right array
+          right.start();
         }
+
     }
 
     public static int partition(ArrayList<Integer> arr, int low, int high) {
-        Random rand = new Random();
-        int pivot = arr.get(rand.nextInt(arr.size()));      //choose pivot position randomly
+
+        int pivot=arr.get(high);
         System.out.print("Pivot: " + pivot+ " ");
         int lo = low;                   //assign low to temp
 
-        for (int i = lo; i < high; i++) {
+        for ( int i = lo; i < high; i++) {
             if (arr.get(i) <= pivot) {    //compare array with pivot and if smaller than pivot exchange
                 swap(arr, lo, i);
                 System.out.println(arr);
@@ -68,10 +75,11 @@ public class Main {
 
         ArrayList<Integer> number = parse();
         System.out.println(number);
+        System.out.println("The "+Thread.currentThread().getName()+" thread just finished filling an integer array");
         QuickSort sort = new QuickSort(number, 0, number.size()-1, 'N');
-        sort.run();
-        sort.print();
+        sort.quickSort(number, 0, number.size()-1);
         printOutput(number);
+
     }
 
     //Parse.txt to array
@@ -87,11 +95,11 @@ public class Main {
     }
 
     public static void printOutput(ArrayList<Integer> number) throws IOException{
-       PrintWriter writer = new PrintWriter("output.txt");
-       for(int i = 0; i< number.size(); i++){
-           writer.println(number.get(i));
+        PrintWriter writer = new PrintWriter("output.txt");
+        for(int i = 0; i< number.size(); i++){
+            writer.println(number.get(i));
         }
-       writer.close();
+        writer.close();
     }
 
 }
