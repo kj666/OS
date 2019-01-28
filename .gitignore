@@ -4,3 +4,6 @@
 out/production/OS/com/company/Main.class
 *.xml
 .out/
+out/production/OS/com/company/Main.class
+.idea/workspace.xml
+.idea/misc.xml
