@@ -44,7 +44,7 @@ class QuickSort extends Thread{
              right.join();
          }
          catch (Exception e) {
-
+             System.out.println("An EXCEPTION OCCURED !!!");
          }
         }
 
