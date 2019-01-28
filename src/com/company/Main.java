@@ -28,15 +28,24 @@ class QuickSort extends Thread{
 
     }
 
-    public static void quickSort(ArrayList<Integer> arr, int low, int high) {
+    public static void quickSort(ArrayList<Integer> arr, int low, int high){
         if (high > low) {
             int pivot = partition(arr, low, high);       //partition sort between low and high
             quickSort(arr, low, pivot - 1);
             quickSort(arr, pivot + 1, high);
         QuickSort left = new QuickSort(arr,low, pivot-1, 'L');  //QuickSort thread for the left array
          left.start();
+
       QuickSort right = new QuickSort(arr, pivot + 1, high, 'R'); //QuickSort thread for the right array
           right.start();
+
+         try {
+             left.join();
+             right.join();
+         }
+         catch (Exception e) {
+
+         }
         }
 
     }
