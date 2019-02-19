@@ -1,4 +1,3 @@
-package com.company;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,7 +18,7 @@ class QuickSort extends Thread{
 
     //thread implementation
     public void run(){
-       quickSort(arr, low, high);
+        quickSort(arr, low, high);
     }
 
     //quicksort algorithm
@@ -35,13 +34,13 @@ class QuickSort extends Thread{
             right.start();
 
             //make the threads concurrent
-         try {
-             left.join();
-             right.join();
-         }
-         catch (Exception e) {
-             System.out.println("An EXCEPTION OCCURED !!!");
-         }
+            try {
+                left.join();
+                right.join();
+            }
+            catch (Exception e) {
+                System.out.println("An EXCEPTION OCCURED !!!");
+            }
         }
     }
 
