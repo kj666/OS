@@ -32,7 +32,7 @@ class Process implements Runnable{
     private int remainingTime;
     private int finishedTime;
     private int timeToRun;
-
+//kfkfkf
     public Process() {
     }
 
