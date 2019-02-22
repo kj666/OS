@@ -24,13 +24,14 @@ class CircularQ<T>{
 }
 
 //Process Object
-class Process extends Thread{
+class Process implements Runnable{
     private String processID;
     private String userID;
     private int readyTime;
     private int serviceTime;
     private int remainingTime;
     private int finishedTime;
+    private int timeToRun;
 
     public Process() {
     }
@@ -41,11 +42,14 @@ class Process extends Thread{
         this.readyTime = readyTime;
         this.serviceTime = serviceTime;
         this.remainingTime = serviceTime;
+        this.timeToRun = serviceTime;
     }
 
-    @Override
     public void run() {
-        super.run();
+        for (int i = 0; i < timeToRun; i++){
+
+        }
+
     }
 
     public int getReadyTime() {
@@ -97,12 +101,53 @@ class Process extends Thread{
     }
 }
 
-class Scheduler extends Thread{
+class Scheduler implements Runnable {
 
     private Queue<Process> readyQueue = new LinkedList<>();
+    private Queue<Process> finishedQueue = new LinkedList<>();
     private ArrayList<Process> processes = new ArrayList<>();
     private int q;
     private int t = 0;
+
+    public void setProcessList(ArrayList<Process> processes, int q){
+        this.processes = processes;
+        this.q = q;
+    }
+
+    public void run() {
+        System.out.println("Scheduler Started");
+//        for(int i = 1; i <= 10; i++){
+//            System.out.println("Time "+i);
+//            try{
+//                Thread.sleep(1000);
+//                continue;
+//            }catch (InterruptedException ex){
+//                System.out.println("Resumed");
+//            }
+//        }
+        
+        if(Thread.interrupted()){
+            System.out.println("Scheduler Stopped");
+        }
+//        try {
+//            System.out.println("start- sleep");
+//            Thread.sleep(6000);
+//            System.out.println("Scheduler paused");
+//        }catch (InterruptedException ex){
+//            System.out.println("Scheduler Resumed");
+//        }
+    }
+
+
+    public void suspend(){
+        System.out.println("Scheduler Suspended");
+    }
+
+
+
+    public void addToReadyQueue(Process process){
+        readyQueue.add(process);
+    }
 
 }
 
@@ -117,10 +162,14 @@ public class Main {
         System.out.println(q);
 
         ArrayList<Process> processes = inputParser(scanner);
+        ArrayList<Thread> threads = new ArrayList<>();
 
-        for (int i = 0; i < processes.size(); i++){
-            System.out.println(processes.get(i).getUserID()+"   "+processes.get(i).getProcessID()+ "    "+processes.get(i).getReadyTime()+" "+processes.get(i).getServiceTime());
-        }
+
+        Runnable scheduler = new Scheduler();
+        Thread t1 = new Thread(scheduler);
+        t1.start();
+        t1.interrupt();
+        System.out.println(t1.isInterrupted());
 
         int t = 0;
         while(true){
@@ -128,6 +177,11 @@ public class Main {
             System.out.println(t);
             if(t == 6)
                 break;
+        }
+
+        for(int i = 0; i < processes.size(); i++){
+            Thread temp = new Thread(processes.get(i));
+            threads.add(temp);
         }
     }
 
@@ -146,9 +200,14 @@ public class Main {
                 processes.add(process);
             }
         }
+        //Print process
+        for (int i = 0; i < processes.size(); i++){
+            System.out.println(processes.get(i).getUserID()+"   "+processes.get(i).getProcessID()+ "    "+processes.get(i).getReadyTime()+" "+processes.get(i).getServiceTime());
+        }
+
+        System.out.println("Parsed input.txt successfully!");
         return processes;
     }
-
 
     public static void outputParser(){
 
