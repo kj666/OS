@@ -33,8 +33,7 @@ class Process implements Runnable{
     private int finishedTime;
     private int allowedBurstTime = 0;
     private int timeToRun;
-//kfkfkf
-    private int timeToRun;
+    
     public Process() {
     }
 
