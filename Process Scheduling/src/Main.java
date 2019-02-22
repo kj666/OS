@@ -31,13 +31,10 @@ class Process implements Runnable{
     private int serviceTime;
     private int remainingTime;
     private int finishedTime;
-<<<<<<< HEAD
     private int allowedBurstTime = 0;
-
-=======
     private int timeToRun;
 //kfkfkf
->>>>>>> 84fc90f195f98c58dfcbb86277ac742a731ef3b4
+    private int timeToRun;
     public Process() {
     }
 
