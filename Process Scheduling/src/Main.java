@@ -31,8 +31,13 @@ class Process implements Runnable{
     private int serviceTime;
     private int remainingTime;
     private int finishedTime;
-    private int timeToRun;
+<<<<<<< HEAD
+    private int allowedBurstTime = 0;
 
+=======
+    private int timeToRun;
+//kfkfkf
+>>>>>>> 84fc90f195f98c58dfcbb86277ac742a731ef3b4
     public Process() {
     }
 
@@ -42,11 +47,11 @@ class Process implements Runnable{
         this.readyTime = readyTime;
         this.serviceTime = serviceTime;
         this.remainingTime = serviceTime;
-        this.timeToRun = serviceTime;
+        this.allowedBurstTime = serviceTime;
     }
 
     public void run() {
-        for (int i = 0; i < timeToRun; i++){
+        for (int i = 0; i < allowedBurstTime; i++){
 
         }
 
@@ -125,7 +130,7 @@ class Scheduler implements Runnable {
 //                System.out.println("Resumed");
 //            }
 //        }
-        
+
         if(Thread.interrupted()){
             System.out.println("Scheduler Stopped");
         }
@@ -149,6 +154,20 @@ class Scheduler implements Runnable {
         readyQueue.add(process);
     }
 
+    public void getTotalReadyUser(String userID){
+
+    }
+
+    public void getTotalReadyProcessPerUser(String UserID){
+
+    }
+
+    public void getProcessAllowedBurst(){
+
+    }
+
+    public void isAllProcessTerminated(){}
+
 }
 
 public class Main {
@@ -164,12 +183,6 @@ public class Main {
         ArrayList<Process> processes = inputParser(scanner);
         ArrayList<Thread> threads = new ArrayList<>();
 
-
-        Runnable scheduler = new Scheduler();
-        Thread t1 = new Thread(scheduler);
-        t1.start();
-        t1.interrupt();
-        System.out.println(t1.isInterrupted());
 
         int t = 0;
         while(true){
@@ -201,8 +214,8 @@ public class Main {
             }
         }
         //Print process
-        for (int i = 0; i < processes.size(); i++){
-            System.out.println(processes.get(i).getUserID()+"   "+processes.get(i).getProcessID()+ "    "+processes.get(i).getReadyTime()+" "+processes.get(i).getServiceTime());
+        for (Process p: processes){
+            System.out.println(p.getUserID()+"   "+p.getProcessID()+ "    "+p.getReadyTime()+" "+p.getServiceTime());
         }
 
         System.out.println("Parsed input.txt successfully!");
