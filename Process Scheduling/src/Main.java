@@ -2,14 +2,32 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.Scanner;
 
+
+//https://www.youtube.com/watch?v=3N2t9_6Co3U
+
+//Circular Queue implementation
+class CircularQ<T>{
+    private ArrayList<T> Q = new ArrayList<>();
+    int size, front, rear;
+
+    public CircularQ(int nn) {
+        front = rear =0;
+    }
+
+    public void add(T obj){
+
+    }
+}
 //User object
 class User extends Thread{
     //members
     private String name;
     private int numberProcess;
     private ArrayList<Process> processes;
+    private Queue<Process> q;
 
     public User(String name, int numberProcess) {
         this.name = name;
@@ -101,8 +119,13 @@ public class Main {
             users.add(getUserProcessInfo(scanner));
         }
 
-        for(User u: users){
-            System.out.println(u.getUsername());
+        ArrayList<Process> requestQ = new ArrayList<>();
+        int t = 0;
+        while(true){
+            t++;
+            System.out.println(t);
+            if(t == 6)
+                break;
         }
 
     }
