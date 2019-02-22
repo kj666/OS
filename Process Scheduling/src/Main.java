@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -21,65 +22,25 @@ class CircularQ<T>{
 
     }
 }
-//User object
-class User extends Thread{
-    //members
-    private String name;
-    private int numberProcess;
-    private ArrayList<Process> processes;
-    private Queue<Process> q;
-
-    public User(String name, int numberProcess) {
-        this.name = name;
-        this.numberProcess = numberProcess;
-    }
-
-    @Override
-    public void run() {
-        super.run();
-    }
-
-    public String getUsername() {
-        return name;
-    }
-
-
-    public void setUsername(String name) {
-        this.name = name;
-    }
-
-    public int getNumberProcess() {
-        return numberProcess;
-    }
-
-    public void setNumberProcess(int numberProcess) {
-        this.numberProcess = numberProcess;
-    }
-
-    public ArrayList<Process> getProcesses() {
-        return processes;
-    }
-
-    public void setProcesses(ArrayList<Process> processes) {
-        this.processes = processes;
-    }
-
-    public void addProcess(Process process){
-        this.processes.add(process);
-    }
-}
 
 //Process Object
 class Process extends Thread{
+    private String processID;
+    private String userID;
     private int readyTime;
     private int serviceTime;
+    private int remainingTime;
+    private int finishedTime;
 
     public Process() {
     }
 
-    public Process(int readyTime, int serviceTime) {
+    public Process(String processID, String userID, int readyTime, int serviceTime) {
+        this.processID = processID;
+        this.userID = userID;
         this.readyTime = readyTime;
         this.serviceTime = serviceTime;
+        this.remainingTime = serviceTime;
     }
 
     @Override
@@ -102,6 +63,47 @@ class Process extends Thread{
     public void setServiceTime(int serviceTime) {
         this.serviceTime = serviceTime;
     }
+
+    public String getProcessID() {
+        return processID;
+    }
+
+    public void setProcessID(String processID) {
+        this.processID = processID;
+    }
+
+    public int getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(int remainingTime) {
+        this.remainingTime = remainingTime;
+    }
+
+    public int getFinishedTime() {
+        return finishedTime;
+    }
+
+    public void setFinishedTime(int finishedTime) {
+        this.finishedTime = finishedTime;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+}
+
+class Scheduler extends Thread{
+
+    private Queue<Process> readyQueue = new LinkedList<>();
+    private ArrayList<Process> processes = new ArrayList<>();
+    private int q;
+    private int t = 0;
+
 }
 
 public class Main {
@@ -113,13 +115,13 @@ public class Main {
         Scanner scanner = new Scanner(new BufferedReader(new FileReader("input.txt")));
         q = scanner.nextInt();
         System.out.println(q);
-        ArrayList<User> users = new ArrayList<>();
-        scanner.nextLine();
-        while (scanner.hasNextLine()) {
-            users.add(getUserProcessInfo(scanner));
+
+        ArrayList<Process> processes = inputParser(scanner);
+
+        for (int i = 0; i < processes.size(); i++){
+            System.out.println(processes.get(i).getUserID()+"   "+processes.get(i).getProcessID()+ "    "+processes.get(i).getReadyTime()+" "+processes.get(i).getServiceTime());
         }
 
-        ArrayList<Process> requestQ = new ArrayList<>();
         int t = 0;
         while(true){
             t++;
@@ -127,29 +129,24 @@ public class Main {
             if(t == 6)
                 break;
         }
-
     }
 
-    public static User getUserProcessInfo(Scanner scanner){
-
-        String info = scanner.nextLine();
-        String arr[] = info.split(" ", 2);
-        int numberProcess = Integer.valueOf(arr[1]);
-        System.out.println(arr[0]+" " +numberProcess);
-
-        User user = new User(arr[0], numberProcess);
+    public static ArrayList<Process> inputParser(Scanner scanner){
         ArrayList<Process> processes = new ArrayList<>();
+        scanner.nextLine();
+        while(scanner.hasNextLine()){
+            String info = scanner.nextLine();
+            String arr[] = info.split(" ", 2);
 
-        for (int i = 0; i < numberProcess; i++) {
-            String l[] = scanner.nextLine().split(" ",2);
-            System.out.println(l[0]+" "+ l[1]);
-
-            Process process = new Process(Integer.valueOf(l[0]), Integer.valueOf(l[1]));
-            processes.add(process);
+            String userID = arr[0];
+            int numberProcess = Integer.valueOf(arr[1]);
+            for(int i = 0; i< numberProcess; i++){
+                String l[] = scanner.nextLine().split(" ",2);
+                Process process = new Process(i+"", userID, Integer.valueOf(l[0]), Integer.valueOf(l[1]));
+                processes.add(process);
+            }
         }
-        user.setProcesses(processes);
-        return user;
-
+        return processes;
     }
 
 
