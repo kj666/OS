@@ -28,6 +28,13 @@ class Process implements Runnable{
 
     }
 
+    public int execute(int t){
+//        System.out.print(t+" ");
+        t+= allowedBurstTime;
+//        System.out.println("TIME:"+ t);
+        return t;
+    }
+
     public int getReadyTime() {
         return readyTime;
     }
@@ -74,5 +81,18 @@ class Process implements Runnable{
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public int getAllowedBurstTime() {
+        return allowedBurstTime;
+    }
+
+    public void setAllowedBurstTime(int allowedBurstTime) {
+        this.allowedBurstTime = allowedBurstTime;
+        decreaseRemainingTime();
+    }
+
+    public void decreaseRemainingTime(){
+        this.remainingTime -= this.allowedBurstTime;
     }
 }
