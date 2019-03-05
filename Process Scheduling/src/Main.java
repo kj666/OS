@@ -3,44 +3,43 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-
+//Used this as a reference algorithm
 //https://www.youtube.com/watch?v=3N2t9_6Co3U
-
 
 public class Main {
 
-    //Quantum Value
+    //Quantum Value for scheduler
     private static int q = 0;
 
+    //Main thread
     public static void main(String[] args) throws IOException {
+
+        //Scanner to read input file
         Scanner scanner = new Scanner(new BufferedReader(new FileReader("input.txt")));
+        //read quantum from txt file
         q = scanner.nextInt();
-        System.out.println(q);
-
+        //Arraylist to store all the processes from the input file
         ArrayList<Process> processes = inputParser(scanner);
-        ArrayList<Thread> threads = new ArrayList<>();
 
+        //Print quantum
+        System.out.println("quantum size: "+ q);
+        //Print processes
+        for (Process p: processes){
+            System.out.println(p.getUserID()+"   "+p.getProcessID()+ "    "+p.getReadyTime()+"  "+p.getServiceTime());
+        }
+
+        //Create a new scheduler
         Scheduler scheduler = new Scheduler(processes, q);
         scheduler.run();
-
-
-        int t = 0;
-//        while(true){
-//            t++;
-//            System.out.println(t);
-//            if(t == 6)
-//                break;
-//        }
-
-//        for(int i = 0; i < processes.size(); i++){
-//            Thread temp = new Thread(processes.get(i));
-//            threads.add(temp);
-//        }
     }
 
+    //Parse the input text file and return an array of processes
     public static ArrayList<Process> inputParser(Scanner scanner){
+        //temporary array to store processes
         ArrayList<Process> processes = new ArrayList<>();
         scanner.nextLine();
+
+        //scan if next line exists
         while(scanner.hasNextLine()){
             String info = scanner.nextLine();
             String arr[] = info.split(" ", 2);
@@ -53,12 +52,6 @@ public class Main {
                 processes.add(process);
             }
         }
-        //Print process
-        for (Process p: processes){
-            System.out.println(p.getUserID()+"   "+p.getProcessID()+ "    "+p.getReadyTime()+" "+p.getServiceTime());
-        }
-
-        System.out.println("Parsed input.txt successfully!");
         return processes;
     }
 

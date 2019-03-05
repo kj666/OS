@@ -1,5 +1,7 @@
 //Process Object
 class Process implements Runnable{
+
+    //Process members
     private String processID;
     private String userID;
     private int readyTime;
@@ -7,11 +9,12 @@ class Process implements Runnable{
     private int remainingTime;
     private int finishedTime;
     private int allowedBurstTime = 0;
-    private int timeToRun;
+
 
     public Process() {
     }
 
+    //constructor
     public Process(String processID, String userID, int readyTime, int serviceTime) {
         this.processID = processID;
         this.userID = userID;
@@ -29,11 +32,11 @@ class Process implements Runnable{
     }
 
     public int execute(int t){
-//        System.out.print(t+" ");
-        t+= allowedBurstTime;
-//        System.out.println("TIME:"+ t);
-        return t;
+        int time = t + allowedBurstTime - 1;
+        return time;
     }
+
+    //Getters and Setters
 
     public int getReadyTime() {
         return readyTime;
@@ -89,10 +92,6 @@ class Process implements Runnable{
 
     public void setAllowedBurstTime(int allowedBurstTime) {
         this.allowedBurstTime = allowedBurstTime;
-        decreaseRemainingTime();
     }
 
-    public void decreaseRemainingTime(){
-        this.remainingTime -= this.allowedBurstTime;
-    }
 }

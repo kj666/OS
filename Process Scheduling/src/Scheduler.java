@@ -10,6 +10,8 @@ class Scheduler implements Runnable {
     private ArrayList<Process> processes;
     private int q;
     private int t = 0;
+    private int currentTime = 0;
+
 
     public Scheduler(ArrayList<Process> processes, int q) {
         this.processes = processes;
@@ -19,20 +21,15 @@ class Scheduler implements Runnable {
     public void run() {
         System.out.println("Scheduler Started");
 
-
         while(!isAllProcessTerminated()){
 
             //add process from ArrayList to readyQueue when process gets to arrival time
             for(Process p : processes){
-//                System.out.println(p.getUserID()+" P"+p.getProcessID());
                 if(p.getReadyTime() <= t){
-                    if(!readyQueue.contains(p))
-                        addToReadyQueue(p);
+                    if(!readyQueue.contains(p) && !finishedQueue.contains(p))
+                        readyQueue.add(p);
                 }
-
             }
-//            System.out.println("Size of Queue: "+ readyQueue.size());
-
 
             for(Process p: readyQueue){
                 setProcessBurstTime(p);
@@ -42,17 +39,21 @@ class Scheduler implements Runnable {
                 t = p.execute(t);
 //                setProcessBurstTime(p.getUserID());
 //                p.decreaseRemainingTime();
-                System.out.println("Time "+ t+" - User "+ p.getUserID() +" P"+p.getProcessID()+" - AllowedBT: "+p.getAllowedBurstTime()+" - RT: "+p.getRemainingTime());
+                System.out.println("Time "+ t+" - User "+ p.getUserID() +" P"+p.getProcessID()+" - AllowedBT: "+p.getAllowedBurstTime()+" - RT: "+p.getRemainingTime()+", Executed");
+                p.setRemainingTime(p.getRemainingTime()-p.getAllowedBurstTime());
 
-                readyQueue.remove();
+//                System.out.println("Process Removed");
                 if(p.getRemainingTime()<=0) {
                     finishedQueue.add(p);
+                    System.out.println("Time "+ t+" - User "+ p.getUserID() +" P"+p.getProcessID()+" - AllowedBT: "+p.getAllowedBurstTime()+" - RT: "+p.getRemainingTime()+", Finished");
                 }
                 else{
                     readyQueue.add(p);
+
                 }
 
-
+                //gotta remove properly from queue
+                readyQueue.remove();
 //                System.out.println("afterSize: "+readyQueue.size());
                 break;
 
@@ -61,18 +62,19 @@ class Scheduler implements Runnable {
             }
 
             t++;
-
-            if(t > 20)
-                break;
         }
         System.out.println("Terminated: "+isAllProcessTerminated());
 
     }
-
-    //Add process to readyQueue
-    public void addToReadyQueue(Process process){
-        readyQueue.add(process);
+    //Get arrived processes
+    public void getArrivedProcess(){
+        for(Process p: processes) {
+            if (p.getReadyTime() == currentTime) {
+                readyQueue.add(p);
+            }
+        }
     }
+
 
     //Get total number of user with ready processes
     public int getTotalReadyUser(){
@@ -106,6 +108,7 @@ class Scheduler implements Runnable {
     public int getProcessAllowedBurst(String userID){
         double splitUser = q/(getTotalReadyUser());
         Double splitProcessUser = splitUser/getTotalReadyProcessPerUser(userID);
+//        System.out.println("BURST "+ splitProcessUser);
         return splitProcessUser.intValue();
     }
 
@@ -116,5 +119,4 @@ class Scheduler implements Runnable {
         else
             return false;
     }
-
 }
