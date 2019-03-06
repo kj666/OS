@@ -1,17 +1,17 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 class Scheduler implements Runnable {
 
     private Queue<Process> readyQueue = new LinkedList<>();
     private Queue<Process> finishedQueue = new LinkedList<>();
-    private ArrayList<Process> processes;
-    private int q;
-    private int t = 0;
-    private int currentTime = 0;
 
+    private ArrayList<Process> processes;
+
+    private int q;
+    private int t = 1;
+    private int cycle = 1;
+    private String prevUser;
+    private Process runningProcess;
 
     public Scheduler(ArrayList<Process> processes, int q) {
         this.processes = processes;
@@ -26,55 +26,79 @@ class Scheduler implements Runnable {
             //add process from ArrayList to readyQueue when process gets to arrival time
             for(Process p : processes){
                 if(p.getReadyTime() <= t){
-                    if(!readyQueue.contains(p) && !finishedQueue.contains(p))
+                    if(!readyQueue.contains(p) && !finishedQueue.contains(p)) {
                         readyQueue.add(p);
+                    }
+
                 }
+//                if(t >= cycle*q){
+////                    System.out.println("Cycle finished");
+//                    alternateUser(prevUser);
+//                }
             }
 
-            for(Process p: readyQueue){
-                setProcessBurstTime(p);
-//                System.out.println("beforeSize: "+readyQueue.size());
-                System.out.println("Time "+ t+" - User "+ p.getUserID() +" P"+p.getProcessID()+" - AllowedBT: "+p.getAllowedBurstTime()+" - RT: "+p.getRemainingTime()+", Started");
+//            for(Process p: readyQueue){
+//                System.out.println("readyQ"+ p.getUserID()+" "+ p.getProcessID());
+//            }
 
-                t = p.execute(t);
-//                setProcessBurstTime(p.getUserID());
-//                p.decreaseRemainingTime();
-                System.out.println("Time "+ t+" - User "+ p.getUserID() +" P"+p.getProcessID()+" - AllowedBT: "+p.getAllowedBurstTime()+" - RT: "+p.getRemainingTime()+", Executed");
-                p.setRemainingTime(p.getRemainingTime()-p.getAllowedBurstTime());
+            //Check if ready queue is empty and then proceed
+            if(!readyQueue.isEmpty()){
+                //get first item from queue
+                runningProcess = readyQueue.element();
 
-//                System.out.println("Process Removed");
-                if(p.getRemainingTime()<=0) {
-                    finishedQueue.add(p);
-                    System.out.println("Time "+ t+" - User "+ p.getUserID() +" P"+p.getProcessID()+" - AllowedBT: "+p.getAllowedBurstTime()+" - RT: "+p.getRemainingTime()+", Finished");
-                }
-                else{
-                    readyQueue.add(p);
-
-                }
-
-                //gotta remove properly from queue
+                //Set the burst time of the current process
+                setProcessBurstTime(runningProcess);
+                //remove that process from readyQueue
                 readyQueue.remove();
-//                System.out.println("afterSize: "+readyQueue.size());
-                break;
+                //Keep track of the previous User
+                prevUser = runningProcess.getUserID();
 
-//                t+= p.getAllowedBurstTime() - 1;
-//                readyQueue.remove();
+                runningProcess.setProcessState(true);
+
+                if (runningProcess.getServiceTime() == runningProcess.getRemainingTime())
+                    System.out.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Started");
+
+                System.out.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Resumed");
+                runningProcess.setRemainingTime(runningProcess.getRemainingTime() - runningProcess.getAllowedBurstTime());
+
+                t = runningProcess.execute(t);
+
+                if (runningProcess.getRemainingTime() <= 0) {
+                    finishedQueue.offer(runningProcess);
+                    runningProcess.setProcessState(false);
+                    System.out.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Finished");
+                } else {
+                    readyQueue.offer(runningProcess);
+                    System.out.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Paused");
+                }
+//                alternateUser(runningProcess.getUserID());
+
             }
 
-            t++;
+//            t++;
         }
         System.out.println("Terminated: "+isAllProcessTerminated());
 
     }
-    //Get arrived processes
-    public void getArrivedProcess(){
-        for(Process p: processes) {
-            if (p.getReadyTime() == currentTime) {
-                readyQueue.add(p);
+
+
+    //Alternate User in Queue
+    public void alternateUser(String currUser){
+        Queue<Process> tempQueue = new LinkedList<>();
+        for(Process p: readyQueue){
+            if(!p.getUserID().equals(currUser)){
+                tempQueue.add(p);
             }
         }
-    }
+        for(Process p: readyQueue){
+            if(p.getUserID().equals(currUser)){
+                tempQueue.add(p);
+            }
+        }
+        readyQueue.clear();
+        readyQueue.addAll(tempQueue);
 
+    }
 
     //Get total number of user with ready processes
     public int getTotalReadyUser(){
@@ -112,6 +136,7 @@ class Scheduler implements Runnable {
         return splitProcessUser.intValue();
     }
 
+
     //check if finished queue = process Array
     public boolean isAllProcessTerminated(){
         if(processes.size() == finishedQueue.size())
@@ -119,4 +144,5 @@ class Scheduler implements Runnable {
         else
             return false;
     }
+
 }

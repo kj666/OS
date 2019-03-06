@@ -9,30 +9,35 @@ class Process implements Runnable{
     private int remainingTime;
     private int finishedTime;
     private int allowedBurstTime = 0;
-
+    private boolean processState = false;
+    private int startTime;
 
     public Process() {
     }
 
     //constructor
-    public Process(String processID, String userID, int readyTime, int serviceTime) {
+    public Process(String processID, String userID, int readyTime, int serviceTime, int startTime) {
         this.processID = processID;
         this.userID = userID;
         this.readyTime = readyTime;
         this.serviceTime = serviceTime;
         this.remainingTime = serviceTime;
         this.allowedBurstTime = serviceTime;
+        this.processState = false;
+        this.startTime = startTime;
     }
 
     public void run() {
+        if (serviceTime == remainingTime) {
+            System.out.println("Time " + startTime + " - User " + userID + " P" + processID + " - AllowedBT: " + allowedBurstTime + " - RT: " + remainingTime + ", Started");
+        }
         for (int i = 0; i < allowedBurstTime; i++){
 
         }
-
     }
 
     public int execute(int t){
-        int time = t + allowedBurstTime - 1;
+        int time = t + allowedBurstTime;
         return time;
     }
 
@@ -94,4 +99,11 @@ class Process implements Runnable{
         this.allowedBurstTime = allowedBurstTime;
     }
 
+    public boolean isProcessState() {
+        return processState;
+    }
+
+    public void setProcessState(boolean processState) {
+        this.processState = processState;
+    }
 }
