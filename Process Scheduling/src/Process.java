@@ -1,7 +1,10 @@
+import java.util.concurrent.Semaphore;
+
 //Process Object
 class Process implements Runnable{
 
     //Process members
+    Semaphore sem;
     private String processID;
     private String userID;
     private int readyTime;

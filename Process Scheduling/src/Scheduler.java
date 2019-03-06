@@ -13,6 +13,8 @@ class Scheduler implements Runnable {
     private String prevUser;
     private Process runningProcess;
 
+    int clock;
+
     public Scheduler(ArrayList<Process> processes, int q) {
         this.processes = processes;
         this.q = q;
@@ -20,7 +22,6 @@ class Scheduler implements Runnable {
 
     public void run() {
         System.out.println("Scheduler Started");
-
         while(!isAllProcessTerminated()){
 
             //add process from ArrayList to readyQueue when process gets to arrival time
@@ -31,10 +32,10 @@ class Scheduler implements Runnable {
                     }
 
                 }
-//                if(t >= cycle*q){
-////                    System.out.println("Cycle finished");
-//                    alternateUser(prevUser);
-//                }
+                if(t >= cycle*q){
+//                    System.out.println("Cycle finished");
+                    alternateUser(prevUser);
+                }
             }
 
 //            for(Process p: readyQueue){
