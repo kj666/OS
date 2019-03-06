@@ -40,7 +40,7 @@ class Process implements Runnable{
     }
 
     public int execute(int t){
-        int time = t + allowedBurstTime;
+        int time = t + allowedBurstTime;//------------------------ THIS IS WHAT IM DOING
         return time;
     }
 

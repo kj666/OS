@@ -8,7 +8,7 @@ class Scheduler implements Runnable {
     private ArrayList<Process> processes;
 
     private int q;
-    private int t = 1;
+    private int t = 1;//------------------------
     private int cycle = 1;
     private String prevUser;
     private Process runningProcess;
@@ -32,10 +32,11 @@ class Scheduler implements Runnable {
                     }
 
                 }
-                if(t >= cycle*q){
-//                    System.out.println("Cycle finished");
-                    alternateUser(prevUser);
-                }
+                //LOOOOOOK HEEREEE
+//                if(t >= cycle*q){
+////                    System.out.println("Cycle finished");
+//                    alternateUser(prevUser);
+//                }
             }
 
 //            for(Process p: readyQueue){
@@ -62,9 +63,10 @@ class Scheduler implements Runnable {
                 System.out.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Resumed");
                 runningProcess.setRemainingTime(runningProcess.getRemainingTime() - runningProcess.getAllowedBurstTime());
 
-                t = runningProcess.execute(t);
+                t = runningProcess.execute(t);//------------------------GO CHECK PROCESS
 
                 if (runningProcess.getRemainingTime() <= 0) {
+                    runningProcess.setRemainingTime(0);
                     finishedQueue.offer(runningProcess);
                     runningProcess.setProcessState(false);
                     System.out.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Finished");
@@ -76,7 +78,7 @@ class Scheduler implements Runnable {
 
             }
 
-//            t++;
+//            t++; //------------------------IM NOT INCREMENTING
         }
         System.out.println("Terminated: "+isAllProcessTerminated());
 
