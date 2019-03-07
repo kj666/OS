@@ -109,8 +109,4 @@ class Process implements Runnable{
     public void setProcessState(boolean processState) {
         this.processState = processState;
     }
-
-    public void reduceRemainingTime(int t){
-        this.remainingTime -= t;
-    }
 }
