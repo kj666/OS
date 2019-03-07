@@ -12,7 +12,6 @@ class Process implements Runnable{
     private int remainingTime;
     private int finishedTime;
     private int allowedBurstTime = 0;
-    private boolean processState = false;
     private int startTime;
 
     public Process() {
@@ -26,7 +25,6 @@ class Process implements Runnable{
         this.serviceTime = serviceTime;
         this.remainingTime = serviceTime;
         this.allowedBurstTime = serviceTime;
-        this.processState = false;
         this.startTime = startTime;
     }
 
@@ -102,11 +100,4 @@ class Process implements Runnable{
         this.allowedBurstTime = allowedBurstTime;
     }
 
-    public boolean isProcessState() {
-        return processState;
-    }
-
-    public void setProcessState(boolean processState) {
-        this.processState = processState;
-    }
 }

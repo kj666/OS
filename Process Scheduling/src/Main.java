@@ -48,7 +48,7 @@ public class Main {
             int numberProcess = Integer.valueOf(arr[1]);
             for(int i = 0; i< numberProcess; i++){
                 String l[] = scanner.nextLine().split(" ",2);
-                Process process = new Process(i+"", userID, Integer.valueOf(l[0]), Integer.valueOf(l[1]),0);
+                Process process = new Process(userID+i, userID, Integer.valueOf(l[0]), Integer.valueOf(l[1]),0);
                 processes.add(process);
             }
         }
