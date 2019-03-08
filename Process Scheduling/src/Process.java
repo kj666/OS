@@ -4,13 +4,12 @@ import java.util.concurrent.Semaphore;
 class Process implements Runnable{
 
     //Process members
-    Semaphore sem;
     private String processID;
     private String userID;
     private int readyTime;
     private int serviceTime;
+
     private int remainingTime;
-    private int finishedTime;
     private int allowedBurstTime = 0;
     private int startTime;
 
@@ -38,7 +37,7 @@ class Process implements Runnable{
     }
 
     public int execute(int t){
-        int time = t + allowedBurstTime;//------------------------ THIS IS WHAT IM DOING
+        int time = t + allowedBurstTime;
         return time;
     }
 
@@ -74,14 +73,6 @@ class Process implements Runnable{
 
     public void setRemainingTime(int remainingTime) {
         this.remainingTime = remainingTime;
-    }
-
-    public int getFinishedTime() {
-        return finishedTime;
-    }
-
-    public void setFinishedTime(int finishedTime) {
-        this.finishedTime = finishedTime;
     }
 
     public String getUserID() {
