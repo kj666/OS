@@ -13,9 +13,6 @@ class Process implements Runnable{
     private int allowedBurstTime = 0;
     private int startTime;
 
-    public Process() {
-    }
-
     //constructor
     public Process(String processID, String userID, int readyTime, int serviceTime, int startTime) {
         this.processID = processID;

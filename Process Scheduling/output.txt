@@ -1,0 +1,21 @@
+quantum size: 4
+A   0    4  3
+A   1    1  5
+B   0    5  6
+Scheduler Started
+Time 1 - User A P1 - AllowedBT: 4 - RT: 5, Started
+Time 1 - User A P1 - AllowedBT: 4 - RT: 5, Resumed
+Time 5 - User A P1 - AllowedBT: 4 - RT: 1, Paused
+Time 5 - User A P0 - AllowedBT: 1 - RT: 3, Started
+Time 5 - User A P0 - AllowedBT: 1 - RT: 3, Resumed
+Time 6 - User A P0 - AllowedBT: 1 - RT: 2, Paused
+Time 6 - User B P0 - AllowedBT: 2 - RT: 6, Started
+Time 6 - User B P0 - AllowedBT: 2 - RT: 6, Resumed
+Time 8 - User B P0 - AllowedBT: 2 - RT: 4, Paused
+Time 8 - User A P1 - AllowedBT: 1 - RT: 1, Resumed
+Time 9 - User A P1 - AllowedBT: 1 - RT: 0, Finished
+Time 9 - User A P0 - AllowedBT: 2 - RT: 2, Resumed
+Time 11 - User A P0 - AllowedBT: 2 - RT: 0, Finished
+Time 11 - User B P0 - AllowedBT: 4 - RT: 4, Resumed
+Time 15 - User B P0 - AllowedBT: 4 - RT: 0, Finished
+Terminated: true

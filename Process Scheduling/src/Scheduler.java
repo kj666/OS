@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.*;
 
 class Scheduler implements Runnable {
@@ -5,6 +6,7 @@ class Scheduler implements Runnable {
     private Queue<Process> readyQueue = new LinkedList<>();
     private Queue<Process> finishedQueue = new LinkedList<>();
     private ArrayList<Process> processes;
+    private PrintWriter writer;
 
     private int q;
     private int t = 1;
@@ -16,13 +18,14 @@ class Scheduler implements Runnable {
      * @param processes
      * @param q
      */
-    public Scheduler(ArrayList<Process> processes, int q) {
+    public Scheduler(ArrayList<Process> processes, int q, PrintWriter writer) {
         this.processes = processes;
         this.q = q;
+        this.writer = writer;
     }
 
     public void run() {
-        System.out.println("Scheduler Started");
+        writer.println("Scheduler Started");
         while(!isAllProcessTerminated()){
 
             checkReadyProcess();
@@ -41,10 +44,10 @@ class Scheduler implements Runnable {
 
                 //Process started
                 if (runningProcess.getServiceTime() == runningProcess.getRemainingTime())
-                    System.out.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Started");
+                    writer.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Started");
 
                 //Process Resuming
-                System.out.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Resumed");
+                writer.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Resumed");
                 readyQueue.remove();
 
                 //Execute Program
@@ -62,12 +65,12 @@ class Scheduler implements Runnable {
                 if (runningProcess.getRemainingTime() <= 0) {
                     runningProcess.setRemainingTime(0);
                     finishedQueue.offer(runningProcess);
-                    System.out.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Finished");
+                    writer.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Finished");
                 }
                 //Process paused
                 else {
                     readyQueue.offer(runningProcess);
-                    System.out.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Paused");
+                    writer.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Paused");
                 }
                     }
 
@@ -78,7 +81,8 @@ class Scheduler implements Runnable {
 //            System.out.println("CYCLE: "+ cycle);
             cycle++;
         }
-        System.out.println("Terminated: "+isAllProcessTerminated());
+        writer.println("Terminated: "+isAllProcessTerminated());
+        writer.close();
     }
 
     /**
