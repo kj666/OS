@@ -68,11 +68,15 @@ class Scheduler implements Runnable {
                     time.pause();
 
                     //Start Running process
+                    //process will get the time from timer
+                    //and execute
                     runningProcess.start(true);
 
                     //check the process state
+                    //to notify timer to resume
                     while(runningProcess.getState().equals("paused")){
-
+                        time.resume();
+                        runningProcess.pause();
                     }
 
                     //control the remaining time
