@@ -32,8 +32,9 @@ public class Main {
 
         //Create a new scheduler
         Scheduler scheduler = new Scheduler(processes, q, writer);
-        Thread t1 = new Thread(scheduler);
-        t1.start();
+//        Thread t1 = new Thread(scheduler);
+//        t1.start();
+        scheduler.run();
 
 
     }
@@ -60,9 +61,6 @@ public class Main {
         return processes;
     }
 
-    public static void processHandler(){
-
-    }
 
     /**
      * Convert process arraylist into an array of threads

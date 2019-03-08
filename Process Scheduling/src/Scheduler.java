@@ -27,12 +27,13 @@ class Scheduler implements Runnable {
 
     public void run() {
         writer.println("Scheduler Started");
+
+        //Time thread
         Timer time = new Timer(t);
-        Thread timer = new Thread(time);
+        //start timer
+        time.start(true);
 
         while(!isAllProcessTerminated()){
-            timer.run();
-
 
             checkReadyProcess();
 
@@ -40,6 +41,7 @@ class Scheduler implements Runnable {
 
             //Check if ready queue is empty and then proceed
             if (!readyQueue.isEmpty()) {
+                time.resume();
 
                 //get first item from queue
                 checkRunning(runningProcess);
@@ -60,23 +62,25 @@ class Scheduler implements Runnable {
                 if(!(runningProcess.getRemainingTime() <=0)) {
 
                     //running process
-
-
                     int processStart = t;
-                    runningProcess.setStartTime(t);
 
-                    System.out.println(Thread.currentThread().getName());
+                    //Pause Timer Thread
+                    time.pause();
 
+                    //Start Running process
+                    runningProcess.start(true);
 
-                    runningThread = new Thread(runningProcess);
-                    runningThread.start();
+                    //check the process state
+                    while(runningProcess.getState().equals("paused")){
 
-                    runningThread.suspend();
-                    t = runningProcess.getT();
+                    }
+
+                    //control the remaining time
                     for (int i = processStart; i < processStart + runningProcess.getAllowedBurstTime(); i++) {
                         runningProcess.setRemainingTime(runningProcess.getRemainingTime() - 1);
                         t++;
                     }
+
                 }
 
                 //Process Finished
@@ -90,22 +94,25 @@ class Scheduler implements Runnable {
                     readyQueue.offer(runningProcess);
                     writer.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Paused");
                 }
-                    }
+                runningProcess.pause();
+            }
 
             else{
                 //Increment time
                 t++;
-                try {
-                    timer.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+
             }
+
 //            System.out.println("CYCLE: "+ cycle);
             cycle++;
         }
+        //end timer thread
+        time.end();
+
         writer.println("Terminated: "+isAllProcessTerminated());
         writer.close();
+
     }
 
     /**
