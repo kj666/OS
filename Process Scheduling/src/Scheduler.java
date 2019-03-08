@@ -9,9 +9,10 @@ class Scheduler implements Runnable {
     private PrintWriter writer;
 
     private int q;
-    private int t = 1;
+    private volatile int t = 1;
     private int cycle = 1;
     private Process runningProcess =null;
+    private Thread runningThread = null;
 
     /**
      * Default constructor for scheduler
@@ -26,7 +27,12 @@ class Scheduler implements Runnable {
 
     public void run() {
         writer.println("Scheduler Started");
+        Timer time = new Timer(t);
+        Thread timer = new Thread(time);
+
         while(!isAllProcessTerminated()){
+            timer.run();
+
 
             checkReadyProcess();
 
@@ -54,7 +60,19 @@ class Scheduler implements Runnable {
                 if(!(runningProcess.getRemainingTime() <=0)) {
 
                     //running process
+
+
                     int processStart = t;
+                    runningProcess.setStartTime(t);
+
+                    System.out.println(Thread.currentThread().getName());
+
+
+                    runningThread = new Thread(runningProcess);
+                    runningThread.start();
+
+                    runningThread.suspend();
+                    t = runningProcess.getT();
                     for (int i = processStart; i < processStart + runningProcess.getAllowedBurstTime(); i++) {
                         runningProcess.setRemainingTime(runningProcess.getRemainingTime() - 1);
                         t++;
@@ -77,6 +95,11 @@ class Scheduler implements Runnable {
             else{
                 //Increment time
                 t++;
+                try {
+                    timer.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 //            System.out.println("CYCLE: "+ cycle);
             cycle++;

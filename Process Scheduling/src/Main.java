@@ -22,6 +22,7 @@ public class Main {
         //Arraylist to store all the processes from the input file
         ArrayList<Process> processes = inputParser(scanner);
 
+
         //Print quantum
         writer.println("quantum size: "+ q);
         //Print processes
@@ -33,7 +34,8 @@ public class Main {
         Scheduler scheduler = new Scheduler(processes, q, writer);
         Thread t1 = new Thread(scheduler);
         t1.start();
-        
+
+
     }
 
     //Parse the input text file and return an array of processes
@@ -60,5 +62,18 @@ public class Main {
 
     public static void processHandler(){
 
+    }
+
+    /**
+     * Convert process arraylist into an array of threads
+     */
+    public Thread[] convertArrayToThread(ArrayList<Process> process){
+        Thread tmpThread[] = new Thread[process.size()];
+
+        for(int i = 0; i< process.size(); i++){
+            tmpThread[i] = new Thread(process.get(i));
+        }
+
+        return tmpThread;
     }
 }

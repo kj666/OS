@@ -12,6 +12,7 @@ class Process implements Runnable{
     private int remainingTime;
     private int allowedBurstTime = 0;
     private int startTime;
+    private int t;
 
     //constructor
     public Process(String processID, String userID, int readyTime, int serviceTime, int startTime) {
@@ -25,18 +26,13 @@ class Process implements Runnable{
     }
 
     public void run() {
-        if (serviceTime == remainingTime) {
-            System.out.println("Time " + startTime + " - User " + userID + " P" + processID + " - AllowedBT: " + allowedBurstTime + " - RT: " + remainingTime + ", Started");
-        }
-        for (int i = 0; i < allowedBurstTime; i++){
 
+        for (int i = startTime; i < startTime + allowedBurstTime; i++) {
+            remainingTime -=1;
+            t++;
         }
     }
 
-    public int execute(int t){
-        int time = t + allowedBurstTime;
-        return time;
-    }
 
     //Getters and Setters
 
@@ -88,4 +84,20 @@ class Process implements Runnable{
         this.allowedBurstTime = allowedBurstTime;
     }
 
+    public int getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
+        this.t = startTime;
+    }
+
+    public int getT() {
+        return t;
+    }
+
+    public void setT(int t) {
+        this.t = t;
+    }
 }
