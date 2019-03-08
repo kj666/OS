@@ -32,22 +32,14 @@ class Scheduler implements Runnable {
 
         while(!isAllProcessTerminated()){
             timer.run();
-
-
             checkReadyProcess();
-
-//            printReadyQueue("Before");
-
             //Check if ready queue is empty and then proceed
             if (!readyQueue.isEmpty()) {
-
                 //get first item from queue
                 checkRunning(runningProcess);
                 runningProcess = readyQueue.peek();
-
                 //Set the burst time of the current process
                 setProcessBurstTime(runningProcess);
-
                 //Process started
                 if (runningProcess.getServiceTime() == runningProcess.getRemainingTime())
                     writer.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Started");
@@ -55,22 +47,13 @@ class Scheduler implements Runnable {
                 //Process Resuming
                 writer.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Resumed");
                 readyQueue.remove();
-
                 //Execute Program
                 if(!(runningProcess.getRemainingTime() <=0)) {
-
                     //running process
-
-
                     int processStart = t;
                     runningProcess.setStartTime(t);
-
-                    System.out.println(Thread.currentThread().getName());
-
-
                     runningThread = new Thread(runningProcess);
                     runningThread.start();
-
                     runningThread.suspend();
                     t = runningProcess.getT();
                     for (int i = processStart; i < processStart + runningProcess.getAllowedBurstTime(); i++) {
@@ -101,7 +84,7 @@ class Scheduler implements Runnable {
                     e.printStackTrace();
                 }
             }
-//            System.out.println("CYCLE: "+ cycle);
+//
             cycle++;
         }
         writer.println("Terminated: "+isAllProcessTerminated());
@@ -155,8 +138,6 @@ class Scheduler implements Runnable {
         Double splitProcessUser = splitUser/getTotalReadyProcessPerUser(userID);
         return splitProcessUser.intValue();
     }
-
-
     /**
      * Check if finished queue contains all the initial processes
      * @return
@@ -181,7 +162,6 @@ class Scheduler implements Runnable {
         readyQueue.clear();
         readyQueue.addAll(tmp);
     }
-
     /**
      * Check if specified process is on top of ready queue
      * If it is move to the end of the queue

@@ -1,19 +1,14 @@
 import java.io.*;
 import java.util.*;
 
-//Used this as a reference algorithm
-//https://www.youtube.com/watch?v=3N2t9_6Co3U
+
 
 public class Main {
 
     //Quantum Value for scheduler
     private static int q = 0;
-
-
-
     //Main thread
     public static void main(String[] args) throws IOException,FileNotFoundException {
-
         PrintWriter writer = new PrintWriter("output.txt");
         //Scanner to read input file
         Scanner scanner = new Scanner(new BufferedReader(new FileReader("input.txt")));
@@ -21,8 +16,6 @@ public class Main {
         q = scanner.nextInt();
         //Arraylist to store all the processes from the input file
         ArrayList<Process> processes = inputParser(scanner);
-
-
         //Print quantum
         writer.println("quantum size: "+ q);
         //Print processes
@@ -34,7 +27,6 @@ public class Main {
         Scheduler scheduler = new Scheduler(processes, q, writer);
         Thread t1 = new Thread(scheduler);
         t1.start();
-
 
     }
 
