@@ -27,14 +27,19 @@ class Scheduler implements Runnable {
 
     public void run() {
         writer.println("Scheduler Started");
+
+        //Time thread
         Timer time = new Timer(t);
-        Thread timer = new Thread(time);
+        //start timer
+        time.start(true);
 
         while(!isAllProcessTerminated()){
+          
             timer.run();
             checkReadyProcess();
             //Check if ready queue is empty and then proceed
             if (!readyQueue.isEmpty()) {
+
                 //get first item from queue
                 checkRunning(runningProcess);
                 runningProcess = readyQueue.peek();
@@ -51,15 +56,18 @@ class Scheduler implements Runnable {
                 if(!(runningProcess.getRemainingTime() <=0)) {
                     //running process
                     int processStart = t;
+
                     runningProcess.setStartTime(t);
                     runningThread = new Thread(runningProcess);
                     runningThread.start();
                     runningThread.suspend();
                     t = runningProcess.getT();
+
                     for (int i = processStart; i < processStart + runningProcess.getAllowedBurstTime(); i++) {
                         runningProcess.setRemainingTime(runningProcess.getRemainingTime() - 1);
                         t++;
                     }
+
                 }
 
                 //Process Finished
@@ -73,22 +81,24 @@ class Scheduler implements Runnable {
                     readyQueue.offer(runningProcess);
                     writer.println("Time " + t + " - User " + runningProcess.getUserID() + " P" + runningProcess.getProcessID() + " - AllowedBT: " + runningProcess.getAllowedBurstTime() + " - RT: " + runningProcess.getRemainingTime() + ", Paused");
                 }
-                    }
+                runningProcess.pause();
+            }
 
             else{
                 //Increment time
                 t++;
-                try {
-                    timer.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+
             }
-//
+
             cycle++;
         }
+        //end timer thread
+        time.end();
+
         writer.println("Terminated: "+isAllProcessTerminated());
         writer.close();
+
     }
 
     /**

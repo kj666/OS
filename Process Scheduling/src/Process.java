@@ -13,6 +13,10 @@ class Process implements Runnable{
     private int startTime;
     private int t;
 
+    private volatile boolean pause = false;
+    private volatile String state = "new";
+    private Thread workerThread;
+
     //constructor
     public Process(String processID, String userID, int readyTime, int serviceTime, int startTime) {
         this.processID = processID;
@@ -25,11 +29,27 @@ class Process implements Runnable{
     }
 
     public void run() {
+        boolean workDone = false;
+        while(!workDone){
+            while(pause){
+                setState("Paused");
+                try{
+                    Thread.sleep(100);
+                }catch (InterruptedException e){
 
-        for (int i = startTime; i < startTime + allowedBurstTime; i++) {
-            remainingTime -=1;
-            t++;
+                }
+            }
+            setState("Running");
+            if(t == startTime+ allowedBurstTime){
+                pause();
+                break;
+            }
+            else{
+                t++;
+            }
+            System.out.println("hi");
         }
+        setState("finished");
     }
 
 
@@ -98,5 +118,32 @@ class Process implements Runnable{
 
     public void setT(int t) {
         this.t = t;
+        this.startTime = t;
+    }
+
+    public void pause(){
+        pause = true;
+    }
+
+    public void resume(){
+        pause = false;
+
+        if(workerThread!=null){
+            workerThread.interrupt();
+        }
+    }
+
+    public void start(boolean start){
+        pause = !start;
+        workerThread = new Thread(this);
+        workerThread.start();
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }
