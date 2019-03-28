@@ -3,6 +3,16 @@ class Process implements Runnable {
     private int burstTime;
     private int PID;
 
+    public Process(int arrivalTime, int burstTime, int PID) {
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.PID = PID;
+    }
+
+    public void print(){
+        System.out.println("PID: "+PID+" - AT: "+ arrivalTime+" - BT: "+burstTime);
+    }
+
     @Override
     public void run() {
 
