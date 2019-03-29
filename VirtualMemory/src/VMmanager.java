@@ -19,6 +19,18 @@ public class VMmanager implements Runnable {
         System.out.println("memory size: "+maxSize);
     }
 
+    public int store(String variableId, int value){
+        return 1;
+    }
+
+    public void release(String variableId){
+
+    }
+
+    public int lookUp(String variableId){
+        return 1;
+    }
+
     void parseMemConfigFile(String fileName)throws FileNotFoundException {
         Scanner scanner = new Scanner(new BufferedReader(new FileReader(fileName)));
         maxSize = scanner.nextInt();
