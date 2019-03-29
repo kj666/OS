@@ -39,9 +39,25 @@ public class Scheduler {
         }
     }
 
+    //intialize mutex
     void initFlag(){
         semaphore= new Semaphore(1);
         processToRun = 0;
+    }
+
+    //give cpu a specific thread
+    void setThreadFlag(){
+
+    }
+
+    //simulate process
+    void runProcess(){
+
+    }
+
+    //thread scheduler
+    void start_rr(){
+
     }
     /**
      * Print Queue

@@ -31,6 +31,18 @@ public class VMmanager implements Runnable {
         return 1;
     }
 
+    public void swapMemory(){
+
+    }
+
+    public void handlePage(){
+
+    }
+
+    public void nextCommand(){
+
+    }
+
     void parseMemConfigFile(String fileName)throws FileNotFoundException {
         Scanner scanner = new Scanner(new BufferedReader(new FileReader(fileName)));
         maxSize = scanner.nextInt();
