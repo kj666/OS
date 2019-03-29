@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class VMmanager implements Runnable {
@@ -8,6 +9,7 @@ public class VMmanager implements Runnable {
     private int maxSize;
     private int value;
     private String variableID;
+
 
     @Override
     public void run() {

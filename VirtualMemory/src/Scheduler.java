@@ -57,6 +57,22 @@ public class Scheduler {
 
     //thread scheduler
     void start_rr(){
+        boolean areProcessFinished;
+        System.out.println("Starting RR");
+
+        while(true){
+            areProcessFinished = true;
+
+            checkArrivalTime();
+
+            //run all process in queue
+            for(int i = 0; i < runningQ.size(); i++){
+                if(!runningQ.isEmpty()){
+
+
+                }
+            }
+        }
 
     }
     /**
