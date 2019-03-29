@@ -5,7 +5,7 @@ class Process implements Runnable {
     private boolean isReady;
     private boolean isFinished;
     private double remainingTime;
-
+    private ArrayList <Commands>commands;
     public Process(int arrivalTime, int burstTime, int PID) {
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
@@ -68,5 +68,10 @@ class Process implements Runnable {
         this.remainingTime = remainingTime;
     }
 
+    //call an instruction from the Virtual memory api
+    public void commandCall( ArrayList<Commands>commmands,int firstParameter,int secondParameter)
+    {
+
+    }
 
 }
