@@ -2,6 +2,9 @@ class Process implements Runnable {
     private int arrivalTime;
     private int burstTime;
     private int PID;
+    private boolean isReady;
+    private boolean isFinished;
+    private double remainingTime;
 
     public Process(int arrivalTime, int burstTime, int PID) {
         this.arrivalTime = arrivalTime;
@@ -15,7 +18,6 @@ class Process implements Runnable {
 
     @Override
     public void run() {
-
     }
 
     public int getArrivalTime() {
@@ -41,4 +43,30 @@ class Process implements Runnable {
     public void setPID(int PID) {
         this.PID = PID;
     }
+
+    public boolean isReady() {
+        return isReady;
+    }
+
+    public void setReady(boolean ready) {
+        isReady = ready;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
+
+    public double getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(double remainingTime) {
+        this.remainingTime = remainingTime;
+    }
+
+
 }

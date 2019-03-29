@@ -2,20 +2,63 @@ quantum size: 4
 A   0    4  3
 A   1    1  5
 B   0    5  6
+C   0    4  5
 Scheduler Started
 Time 1 - User A P1 - AllowedBT: 4 - RT: 5, Started
 Time 1 - User A P1 - AllowedBT: 4 - RT: 5, Resumed
 Time 5 - User A P1 - AllowedBT: 4 - RT: 1, Paused
-Time 5 - User A P0 - AllowedBT: 1 - RT: 3, Started
-Time 5 - User A P0 - AllowedBT: 1 - RT: 3, Resumed
-Time 6 - User A P0 - AllowedBT: 1 - RT: 2, Paused
-Time 6 - User B P0 - AllowedBT: 2 - RT: 6, Started
-Time 6 - User B P0 - AllowedBT: 2 - RT: 6, Resumed
-Time 8 - User B P0 - AllowedBT: 2 - RT: 4, Paused
-Time 8 - User A P1 - AllowedBT: 1 - RT: 1, Resumed
-Time 9 - User A P1 - AllowedBT: 1 - RT: 0, Finished
-Time 9 - User A P0 - AllowedBT: 2 - RT: 2, Resumed
-Time 11 - User A P0 - AllowedBT: 2 - RT: 0, Finished
-Time 11 - User B P0 - AllowedBT: 4 - RT: 4, Resumed
-Time 15 - User B P0 - AllowedBT: 4 - RT: 0, Finished
+Time 5 - User A P0 - AllowedBT: 0 - RT: 3, Started
+Time 5 - User A P0 - AllowedBT: 0 - RT: 3, Resumed
+Time 5 - User A P0 - AllowedBT: 0 - RT: 3, Paused
+Time 5 - User B P0 - AllowedBT: 1 - RT: 6, Started
+Time 5 - User B P0 - AllowedBT: 1 - RT: 6, Resumed
+Time 6 - User B P0 - AllowedBT: 1 - RT: 5, Paused
+Time 6 - User C P0 - AllowedBT: 1 - RT: 5, Started
+Time 6 - User C P0 - AllowedBT: 1 - RT: 5, Resumed
+Time 7 - User C P0 - AllowedBT: 1 - RT: 4, Paused
+Time 7 - User A P1 - AllowedBT: 0 - RT: 1, Resumed
+Time 7 - User A P1 - AllowedBT: 0 - RT: 1, Paused
+Time 7 - User A P0 - AllowedBT: 0 - RT: 3, Started
+Time 7 - User A P0 - AllowedBT: 0 - RT: 3, Resumed
+Time 7 - User A P0 - AllowedBT: 0 - RT: 3, Paused
+Time 7 - User B P0 - AllowedBT: 1 - RT: 5, Resumed
+Time 8 - User B P0 - AllowedBT: 1 - RT: 4, Paused
+Time 8 - User C P0 - AllowedBT: 1 - RT: 4, Resumed
+Time 9 - User C P0 - AllowedBT: 1 - RT: 3, Paused
+Time 9 - User A P1 - AllowedBT: 0 - RT: 1, Resumed
+Time 9 - User A P1 - AllowedBT: 0 - RT: 1, Paused
+Time 9 - User A P0 - AllowedBT: 0 - RT: 3, Started
+Time 9 - User A P0 - AllowedBT: 0 - RT: 3, Resumed
+Time 9 - User A P0 - AllowedBT: 0 - RT: 3, Paused
+Time 9 - User B P0 - AllowedBT: 1 - RT: 4, Resumed
+Time 10 - User B P0 - AllowedBT: 1 - RT: 3, Paused
+Time 10 - User C P0 - AllowedBT: 1 - RT: 3, Resumed
+Time 11 - User C P0 - AllowedBT: 1 - RT: 2, Paused
+Time 11 - User A P1 - AllowedBT: 0 - RT: 1, Resumed
+Time 11 - User A P1 - AllowedBT: 0 - RT: 1, Paused
+Time 11 - User A P0 - AllowedBT: 0 - RT: 3, Started
+Time 11 - User A P0 - AllowedBT: 0 - RT: 3, Resumed
+Time 11 - User A P0 - AllowedBT: 0 - RT: 3, Paused
+Time 11 - User B P0 - AllowedBT: 1 - RT: 3, Resumed
+Time 12 - User B P0 - AllowedBT: 1 - RT: 2, Paused
+Time 12 - User C P0 - AllowedBT: 1 - RT: 2, Resumed
+Time 13 - User C P0 - AllowedBT: 1 - RT: 1, Paused
+Time 13 - User A P1 - AllowedBT: 0 - RT: 1, Resumed
+Time 13 - User A P1 - AllowedBT: 0 - RT: 1, Paused
+Time 13 - User A P0 - AllowedBT: 0 - RT: 3, Started
+Time 13 - User A P0 - AllowedBT: 0 - RT: 3, Resumed
+Time 13 - User A P0 - AllowedBT: 0 - RT: 3, Paused
+Time 13 - User B P0 - AllowedBT: 1 - RT: 2, Resumed
+Time 14 - User B P0 - AllowedBT: 1 - RT: 1, Paused
+Time 14 - User C P0 - AllowedBT: 1 - RT: 1, Resumed
+Time 15 - User C P0 - AllowedBT: 1 - RT: 0, Finished
+Time 15 - User A P1 - AllowedBT: 1 - RT: 1, Resumed
+Time 16 - User A P1 - AllowedBT: 1 - RT: 0, Finished
+Time 16 - User A P0 - AllowedBT: 2 - RT: 3, Started
+Time 16 - User A P0 - AllowedBT: 2 - RT: 3, Resumed
+Time 18 - User A P0 - AllowedBT: 2 - RT: 1, Paused
+Time 18 - User B P0 - AllowedBT: 2 - RT: 1, Resumed
+Time 20 - User B P0 - AllowedBT: 2 - RT: 0, Finished
+Time 20 - User A P0 - AllowedBT: 4 - RT: 1, Resumed
+Time 24 - User A P0 - AllowedBT: 4 - RT: 0, Finished
 Terminated: true

@@ -1,30 +1,52 @@
+import sun.plugin.perf.PluginRollup;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.Scanner;
+import java.util.concurrent.Semaphore;
 
 public class Scheduler {
-    private int numProcess;
-    private int memSize;
-    private int commandCounter;
-    private Clock clk;
+    private int  threadCount;
+    private int clk;
+    private int t;
+    int numberProcess;
+    private int processToRun[];
+
+    private Deque<Process> runningQ;
+    private Deque<Process> waitingQ;
+
+    Semaphore semaphore;
+
     ArrayList<Process> processes = new ArrayList<>();
 
     public Scheduler() {
-        clk = new Clock();
-
+        clk = 1;
+        t = 1;
+        threadCount = 0;
     }
 
     public void startScheduler() throws FileNotFoundException{
-        parseProcessFile();
-        clk.startClk();
+        parseProcessFile("processes.txt");
     }
 
-    void parseProcessFile() throws FileNotFoundException {
-        Scanner scanner = new Scanner(new BufferedReader(new FileReader("processes.txt")));
+    public void printQ(Deque<Process> queue){
+        for(Process p: queue){
+            System.out.printf("PID: "+ p.getPID()+" arrival: "+p.getArrivalTime()+" remaining: "+ p.getRemainingTime());
+        }
+    }
 
-        int numberProcess = scanner.nextInt();
+    /**
+     * Parse process input file into Process
+     * @param fileName
+     * @throws FileNotFoundException
+     */
+    void parseProcessFile(String fileName) throws FileNotFoundException {
+        Scanner scanner = new Scanner(new BufferedReader(new FileReader(fileName)));
+
+        numberProcess = scanner.nextInt();
         System.out.println(numberProcess);
         int PID = 0;
         scanner.nextLine();
@@ -38,16 +60,13 @@ public class Scheduler {
         for(Process p: processes){
             p.print();
         }
+        scanner.close();
 
     }
 
-    void parseCommandFile(){
+    void parseCommandFile(String fileName)throws FileNotFoundException{
+        Scanner scanner = new Scanner(new BufferedReader(new FileReader(fileName)));
 
     }
-
-    void parseMemConfigFile(){
-
-    }
-
 
 }
